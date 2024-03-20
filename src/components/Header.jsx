@@ -21,7 +21,7 @@ export default function Header() {
                     </Typography>
                 </Box>
                 <Typography variant="h6" noWrap>
-                    FastFood-Toulouse
+                    FastFood - Toulouse FFT
                 </Typography>
             </Toolbar>
         </AppBar>
