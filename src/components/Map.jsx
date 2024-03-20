@@ -3,7 +3,6 @@ import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import RoomIcon from '@mui/icons-material/Room';
 import { renderToStaticMarkup } from 'react-dom/server';
-import PropTypes from 'prop-types';
 import 'leaflet/dist/leaflet.css';
 
 
@@ -20,6 +19,7 @@ const CustomMarkerIcon = () => {
 };
 
 const Map = ({ position }) => {
+
     return (
         <MapContainer center={position} zoom={13} style={{ height: '400px', width: '100%' }}>
             <TileLayer
@@ -31,12 +31,10 @@ const Map = ({ position }) => {
                     {position[0]}, {position[1]}
                 </Popup>
             </Marker>
+
+
         </MapContainer>
     );
-};
-
-Map.propTypes = {
-    position: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
 
 export default Map;
