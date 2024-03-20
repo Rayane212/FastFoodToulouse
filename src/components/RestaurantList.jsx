@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const RestaurantList = ({ restaurants }) => {
     return (
@@ -18,6 +19,10 @@ const RestaurantList = ({ restaurants }) => {
             </ul>
         </div>
     );
+};
+
+RestaurantList.propTypes = {
+    restaurants: PropTypes.array.isRequired,
 };
 
 export default RestaurantList;
