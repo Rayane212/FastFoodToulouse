@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const Filter = ({ onFilterChange }) => {
     const [selectedLocation, setSelectedLocation] = useState('');
@@ -80,6 +81,10 @@ const Filter = ({ onFilterChange }) => {
             </div>
         </div>
     );
+};
+
+Filter.propTypes = {
+    onFilterChange: PropTypes.func.isRequired,
 };
 
 export default Filter;
