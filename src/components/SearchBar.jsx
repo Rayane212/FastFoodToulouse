@@ -1,63 +1,71 @@
-import React, { useState } from 'react';
-import { Input } from 'antd';
-import restaurantData from '../data/restaurantData.json';
+import React, { useState, useEffect } from 'react';
+import Header from './Header';
 
-const { Search } = Input;
+const SearchBar = ({ handleSearch }) => {
+    const [searchTerm, setSearchTerm] = useState('');
 
-const SearchBar = () => {
-    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-    const [searchValue, setSearchValue] = useState('');
-    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
-
-    const handleSearch = (value) => {
-        setSearchValue(value);
-        if (value.length >= 2) {
-            const filtered = restaurantData.filter((restaurant) =>
-                restaurant.name.toLowerCase().includes(value.toLowerCase())
-            );
-            setFilteredRestaurants(filtered);
-        } else {
-            setFilteredRestaurants([]);
-        }
+    const handleChange = (event) => {
+        setSearchTerm(event.target.value);
     };
 
-    const handleRestaurantSelect = (restaurant) => {
-        setSelectedRestaurant(restaurant);
-    };
+    useEffect(() => {
+        handleSearch(searchTerm);
+    }, [searchTerm, handleSearch]);
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Search
+        <div className="search-bar">
+            <input
+                type="text"
                 placeholder="Search restaurants..."
-                style={{ width: 400, marginBottom: 20 }}
-                value={searchValue}
-                onChange={(e) => handleSearch(e.target.value)}
+                value={searchTerm}
+                onChange={handleChange}
             />
-            <div style={{ width: 400 }}>
-                {/* Render the filtered restaurant list */}
-                {filteredRestaurants.map((restaurant) => (
-                    <div 
-                        key={restaurant.id} 
-                        style={{ 
-                            marginBottom: 10, 
-                            cursor: 'pointer',
-                            backgroundColor: selectedRestaurant === restaurant ? '#f0f0f0' : 'transparent'
-                        }}
-                        onClick={() => handleRestaurantSelect(restaurant)}
-                    >
-                        {restaurant.name}
-                    </div>
-                ))}
-            </div>
-            {selectedRestaurant && (
-                <div style={{ marginTop: 20 }}>
-                    <h2>{selectedRestaurant.name}</h2>
-                    <p>{selectedRestaurant.description}</p>
-                    {/* Ajoutez d'autres détails du restaurant si nécessaire */}
-                </div>
-            )}
         </div>
     );
 };
 
-export default SearchBar;
+const NavBar = ({ restaurants }) => {
+    const [filterTerm, setFilterTerm] = useState('');
+    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+
+    const handleSearch = (term) => {
+        setFilterTerm(term);
+    };
+
+    useEffect(() => {
+        const filtered = restaurants.filter(
+            (restaurant) =>
+                restaurant.name.toLowerCase().includes(filterTerm.toLowerCase()) ||
+                restaurant.address.toLowerCase().includes(filterTerm.toLowerCase())
+        );
+        setFilteredRestaurants(filtered);
+    }, [restaurants, filterTerm]);
+
+    return (
+        <div className="navbar">
+            <SearchBar handleSearch={handleSearch} />
+            <ul>
+                {filteredRestaurants.map((restaurant, index) => (
+                    <li key={index}>
+                        <span>{restaurant.name}</span>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+const App = () => {
+    const [restaurantsData, setRestaurantsData] = useState([]);
+
+    useEffect(() => {
+        fetch('src/data/restaurantData.json')
+            .then((response) => response.json())
+            .then((data) => setRestaurantsData(data))
+            .catch((error) => console.error('Error fetching restaurant data:', error));
+    }, []);
+
+    return <NavBar restaurants={restaurantsData} />;
+};
+
+export default Header;
