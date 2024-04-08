@@ -43,4 +43,4 @@ const App = () => {
     return <NavBar restaurants={restaurantsData} />;
 };
 
-export default Header;
+export default SearchBar;
