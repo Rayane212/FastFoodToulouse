@@ -5,12 +5,6 @@ import FormPage from './pages/FormPage';
 import RestaurantPage from './pages/RestaurantPage';
 import Error404 from './pages/Error404';
 import Header from './components/Header';
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import FormPage from './pages/FormPage';
-import RestaurantPage from './pages/RestaurantPage';
-import Error404 from './pages/Error404';
 
 
 function App() {
