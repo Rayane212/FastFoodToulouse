@@ -66,17 +66,4 @@ const SearchBar = () => {
     );
 };
 
-const App = () => {
-    const [restaurantsData, setRestaurantsData] = useState([]);
-
-    useEffect(() => {
-        fetch('src/data/restaurantData.json')
-            .then((response) => response.json())
-            .then((data) => setRestaurantsData(data))
-            .catch((error) => console.error('Error fetching restaurant data:', error));
-    }, []);
-
-    return <NavBar restaurants={restaurantsData} />;
-};
-
-export default Header;
+export default SearchBar;
