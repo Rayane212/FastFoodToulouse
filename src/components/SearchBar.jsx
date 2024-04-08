@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from 'antd';
 import { restaurantData } from '../data/restaurantData';
 
 const { Search } = Input;
+import Header from './Header';
 
 const SearchBar = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
@@ -29,4 +30,17 @@ const SearchBar = () => {
     );
 };
 
-export default SearchBar;
+const App = () => {
+    const [restaurantsData, setRestaurantsData] = useState([]);
+
+    useEffect(() => {
+        fetch('src/data/restaurantData.json')
+            .then((response) => response.json())
+            .then((data) => setRestaurantsData(data))
+            .catch((error) => console.error('Error fetching restaurant data:', error));
+    }, []);
+
+    return <NavBar restaurants={restaurantsData} />;
+};
+
+export default Header;
