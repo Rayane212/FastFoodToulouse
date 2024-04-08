@@ -4,6 +4,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
 import { Box } from '@mui/material';
+import SearchBar from './SearchBar';
 
 export default function Header() {
     const [checked, setChecked] = React.useState(false);
@@ -23,6 +24,7 @@ export default function Header() {
                 <Typography variant="h6" noWrap>
                     FastFood - Toulouse FFT
                 </Typography>
+                <SearchBar />
             </Toolbar>
         </AppBar>
     );

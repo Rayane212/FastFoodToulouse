@@ -1,71 +1,32 @@
-import React, { useState, useEffect } from 'react';
-import Header from './Header';
+import React, { useState } from 'react';
+import { Input } from 'antd';
+import { restaurantData } from '../data/restaurantData';
 
-const SearchBar = ({ handleSearch }) => {
-    const [searchTerm, setSearchTerm] = useState('');
+const { Search } = Input;
 
-    const handleChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
-
-    useEffect(() => {
-        handleSearch(searchTerm);
-    }, [searchTerm, handleSearch]);
-
-    return (
-        <div className="search-bar">
-            <input
-                type="text"
-                placeholder="Search restaurants..."
-                value={searchTerm}
-                onChange={handleChange}
-            />
-        </div>
-    );
-};
-
-const NavBar = ({ restaurants }) => {
-    const [filterTerm, setFilterTerm] = useState('');
+const SearchBar = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
 
-    const handleSearch = (term) => {
-        setFilterTerm(term);
-    };
-
-    useEffect(() => {
-        const filtered = restaurants.filter(
-            (restaurant) =>
-                restaurant.name.toLowerCase().includes(filterTerm.toLowerCase()) ||
-                restaurant.address.toLowerCase().includes(filterTerm.toLowerCase())
+    const handleSearch = (value) => {
+        const filtered = restaurantData.filter((restaurant) =>
+            restaurant.name.toLowerCase().includes(value.toLowerCase())
         );
         setFilteredRestaurants(filtered);
-    }, [restaurants, filterTerm]);
+    };
 
     return (
-        <div className="navbar">
-            <SearchBar handleSearch={handleSearch} />
-            <ul>
-                {filteredRestaurants.map((restaurant, index) => (
-                    <li key={index}>
-                        <span>{restaurant.name}</span>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <>
+            <Search
+                placeholder="Search restaurants..."
+                style={{ width: 200 }}
+                onSearch={handleSearch}
+            />
+            {/* Render the filtered restaurant list */}
+            {filteredRestaurants.map((restaurant) => (
+                <div key={restaurant.id}>{restaurant.name}</div>
+            ))}
+        </>
     );
 };
 
-const App = () => {
-    const [restaurantsData, setRestaurantsData] = useState([]);
-
-    useEffect(() => {
-        fetch('src/data/restaurantData.json')
-            .then((response) => response.json())
-            .then((data) => setRestaurantsData(data))
-            .catch((error) => console.error('Error fetching restaurant data:', error));
-    }, []);
-
-    return <NavBar restaurants={restaurantsData} />;
-};
-
-export default Header;
+export default SearchBar;
