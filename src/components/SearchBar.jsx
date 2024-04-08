@@ -7,6 +7,7 @@ const { Search } = Input;
 const SearchBar = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const [searchValue, setSearchValue] = useState('');
+    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
     const handleSearch = (value) => {
         setSearchValue(value);
@@ -20,6 +21,10 @@ const SearchBar = () => {
         }
     };
 
+    const handleRestaurantSelect = (restaurant) => {
+        setSelectedRestaurant(restaurant);
+    };
+
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Search
@@ -31,9 +36,26 @@ const SearchBar = () => {
             <div style={{ width: 400 }}>
                 {/* Render the filtered restaurant list */}
                 {filteredRestaurants.map((restaurant) => (
-                    <div key={restaurant.id} style={{ marginBottom: 10 }}>{restaurant.name}</div>
+                    <div 
+                        key={restaurant.id} 
+                        style={{ 
+                            marginBottom: 10, 
+                            cursor: 'pointer',
+                            backgroundColor: selectedRestaurant === restaurant ? '#f0f0f0' : 'transparent'
+                        }}
+                        onClick={() => handleRestaurantSelect(restaurant)}
+                    >
+                        {restaurant.name}
+                    </div>
                 ))}
             </div>
+            {selectedRestaurant && (
+                <div style={{ marginTop: 20 }}>
+                    <h2>{selectedRestaurant.name}</h2>
+                    <p>{selectedRestaurant.description}</p>
+                    {/* Ajoutez d'autres détails du restaurant si nécessaire */}
+                </div>
+            )}
         </div>
     );
 };
