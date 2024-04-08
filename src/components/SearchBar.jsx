@@ -1,46 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Input } from 'antd';
-import { restaurantData } from '../data/restaurantData';
+import restaurantData from '../data/restaurantData.json';
 
 const { Search } = Input;
-import Header from './Header';
 
 const SearchBar = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+    const [searchValue, setSearchValue] = useState('');
+    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 
     const handleSearch = (value) => {
-        const filtered = restaurantData.filter((restaurant) =>
-            restaurant.name.toLowerCase().includes(value.toLowerCase())
-        );
-        setFilteredRestaurants(filtered);
+        setSearchValue(value);
+        if (value.length >= 2) {
+            const filtered = restaurantData.filter((restaurant) =>
+                restaurant.name.toLowerCase().includes(value.toLowerCase())
+            );
+            setFilteredRestaurants(filtered);
+        } else {
+            setFilteredRestaurants([]);
+        }
+    };
+
+    const handleRestaurantSelect = (restaurant) => {
+        setSelectedRestaurant(restaurant);
     };
 
     return (
-        <>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Search
                 placeholder="Search restaurants..."
-                style={{ width: 200 }}
-                onSearch={handleSearch}
+                style={{ width: 400, marginBottom: 20 }}
+                value={searchValue}
+                onChange={(e) => handleSearch(e.target.value)}
             />
-            {/* Render the filtered restaurant list */}
-            {filteredRestaurants.map((restaurant) => (
-                <div key={restaurant.id}>{restaurant.name}</div>
-            ))}
-        </>
+            <div style={{ width: 400 }}>
+                {/* Render the filtered restaurant list */}
+                {filteredRestaurants.map((restaurant) => (
+                    <div 
+                        key={restaurant.id} 
+                        style={{ 
+                            marginBottom: 10, 
+                            cursor: 'pointer',
+                            backgroundColor: selectedRestaurant === restaurant ? '#f0f0f0' : 'transparent'
+                        }}
+                        onClick={() => handleRestaurantSelect(restaurant)}
+                    >
+                        {restaurant.name}
+                    </div>
+                ))}
+            </div>
+            {selectedRestaurant && (
+                <div style={{ marginTop: 20 }}>
+                    <h2>{selectedRestaurant.name}</h2>
+                    <p>{selectedRestaurant.description}</p>
+                    {/* Ajoutez d'autres détails du restaurant si nécessaire */}
+                </div>
+            )}
+        </div>
     );
-};
-
-const App = () => {
-    const [restaurantsData, setRestaurantsData] = useState([]);
-
-    useEffect(() => {
-        fetch('src/data/restaurantData.json')
-            .then((response) => response.json())
-            .then((data) => setRestaurantsData(data))
-            .catch((error) => console.error('Error fetching restaurant data:', error));
-    }, []);
-
-    return <NavBar restaurants={restaurantsData} />;
 };
 
 export default SearchBar;
