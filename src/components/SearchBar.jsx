@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import { Input } from 'antd';
 import restaurantData from '../data/restaurantData.json';
 
@@ -8,22 +8,28 @@ const SearchBar = () => {
     const [filteredRestaurants, setFilteredRestaurants] = useState([]);
     const [searchValue, setSearchValue] = useState('');
     const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const searchTimeout = useRef(null);
 
-    const handleSearch = (value) => {
+    const handleSearch = useCallback((value) => {
         setSearchValue(value);
-        if (value.length >= 2) {
-            const filtered = restaurantData.filter((restaurant) =>
-                restaurant.name.toLowerCase().includes(value.toLowerCase())
-            );
-            setFilteredRestaurants(filtered);
-        } else {
-            setFilteredRestaurants([]);
+        if (searchTimeout.current) {
+            clearTimeout(searchTimeout.current);
         }
-    };
+        searchTimeout.current = setTimeout(() => {
+            if (value.length >= 2) {
+                const filtered = restaurantData.filter((restaurant) =>
+                    restaurant.name.toLowerCase().includes(value.toLowerCase())
+                );
+                setFilteredRestaurants(filtered);
+            } else {
+                setFilteredRestaurants([]);
+            }
+        }, 300); // Définissez le délai de debounce ici
+    }, []);
 
-    const handleRestaurantSelect = (restaurant) => {
+    const handleRestaurantSelect = useCallback((restaurant) => {
         setSelectedRestaurant(restaurant);
-    };
+    }, []);
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -36,10 +42,10 @@ const SearchBar = () => {
             <div style={{ width: 400 }}>
                 {/* Render the filtered restaurant list */}
                 {filteredRestaurants.map((restaurant) => (
-                    <div 
-                        key={restaurant.id} 
-                        style={{ 
-                            marginBottom: 10, 
+                    <div
+                        key={restaurant.id}
+                        style={{
+                            marginBottom: 10,
                             cursor: 'pointer',
                             backgroundColor: selectedRestaurant === restaurant ? '#f0f0f0' : 'transparent'
                         }}
