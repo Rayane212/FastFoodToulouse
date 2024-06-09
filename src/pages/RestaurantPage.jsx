@@ -1,30 +1,39 @@
 import React from 'react';
-import restaurantData from '../data/restaurantData.json';
 import { useParams } from 'react-router-dom';
+import restaurantData from '../data/restaurantData.json';
 import Map from '../components/Map';
+import { Box, Typography, Paper, Card, CardMedia, CardContent } from '@mui/material';
 
 const RestaurantPage = () => {
     const { id } = useParams();
     const restaurant = restaurantData.find(r => r.id.toString() === id);
-    console.log("resto : " + restaurantData);
-
 
     if (!restaurant) {
-        return <div>Restaurant introuvable</div>;
+        return <Typography variant="h6" color="error">Restaurant introuvable</Typography>;
     }
 
     return (
-        <div>
-            <h2>{restaurant.name}</h2>
-            <img src={restaurant.image} alt={restaurant.name} style={{ width: "100%", height: "auto" }} />
-            <p><strong>Adresse:</strong> {restaurant.address}</p>
-            <p><strong>Spécialités:</strong> {restaurant.specialties.join(', ')}</p>
-            <p><strong>Origine:</strong> {restaurant.origins.join(', ')}</p>
-            <p><strong>Description:</strong> {restaurant.description}</p>
-            <Map position={[restaurant.position.latitude, restaurant.position.longitude]} />
-        </div>
+        <Box sx={{ p: 2 }}>
+            <Typography variant="h4" component="h2">{restaurant.name}</Typography>
+            <Card>
+                <CardMedia
+                    component="img"
+                    image={restaurant.image}
+                    alt={restaurant.name}
+                    sx={{ width: "100%", height: "auto" }}
+                />
+                <CardContent>
+                    <Typography variant="body1"><strong>Adresse:</strong> {restaurant.address}</Typography>
+                    <Typography variant="body1"><strong>Spécialités:</strong> {restaurant.specialties.join(', ')}</Typography>
+                    <Typography variant="body1"><strong>Origine:</strong> {restaurant.origins.join(', ')}</Typography>
+                    <Typography variant="body1"><strong>Description:</strong> {restaurant.description}</Typography>
+                </CardContent>
+            </Card>
+            <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
+                <Map position={[restaurant.position.latitude, restaurant.position.longitude]} />
+            </Paper>
+        </Box>
     );
-}
-
+};
 
 export default RestaurantPage;
