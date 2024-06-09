@@ -14,7 +14,6 @@ function App() {
     <BrowserRouter>
       <div>
         <Header/>
-        {/* Ici, tu peux ajouter des composants qui restent constants, comme Header et Footer */}
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/form" element={<FormPage />} />
