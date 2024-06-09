@@ -5,27 +5,33 @@ import Typography from '@mui/material/Typography';
 import Switch from '@mui/material/Switch';
 import { Box } from '@mui/material';
 import SearchBar from './SearchBar';
+import { useToggle } from '../context/ToggleContext';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 export default function Header() {
-    const [checked, setChecked] = React.useState(false);
-    const toggleChecked = () => {
-        setChecked((prev) => !prev);
-    };
+  const { checked, toggleChecked, lastPage } = useToggle();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    return (
-        <AppBar position="static">
-            <Toolbar style={{ justifyContent: 'center', position: 'relative' }}>
-                <Box position="absolute" left={0}>
-                    <Switch color="default" onClick={toggleChecked} />
-                    <Typography variant="button" noWrap>
-                        {checked ? 'Admin' : 'User'}
-                    </Typography>
-                </Box>
-                <Typography variant="h6" noWrap>
-                    FastFood - Toulouse FFT
-                </Typography>
-                <SearchBar />
-            </Toolbar>
-        </AppBar>
-    );
+  const handleToggle = () => {
+    toggleChecked(location.pathname);
+    navigate(checked ? lastPage : '/form');
+  };
+
+  return (
+    <AppBar position="static">
+      <Toolbar style={{ justifyContent: 'center', position: 'relative' }}>
+        <Box position="absolute" left={0}>
+          <Switch color="default" onClick={handleToggle} />
+          <Typography variant="button" noWrap>
+            {checked ? 'Admin' : 'User'}
+          </Typography>
+        </Box>
+        <Typography variant="h6" noWrap>
+          FastFood - Toulouse FFT
+        </Typography>
+        <SearchBar />
+      </Toolbar>
+    </AppBar>
+  );
 }
