@@ -7,7 +7,7 @@
     "origins": ["Italienne"],
     "rating": 4,
     "position": {"latitude": 43.604652, "longitude": 1.444209},
-    "image": "https://example.com/images/le-gourmet-italien.jpg",
+    "image": "./LeGourmetItalien.png",
     "description": "Une escapade italienne authentique, offrant les meilleurs plats traditionnels dans une ambiance chaleureuse."
   },
   {
