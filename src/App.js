@@ -5,6 +5,7 @@ import FormPage from './pages/FormPage';
 import RestaurantPage from './pages/RestaurantPage';
 import Error404 from './pages/Error404';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 
 
@@ -12,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <Header></Header>
+        <Header/>
         {/* Ici, tu peux ajouter des composants qui restent constants, comme Header et Footer */}
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -20,6 +21,7 @@ function App() {
           <Route path="/address/:id" element={<RestaurantPage />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
+        <Footer/>
       </div>
     </BrowserRouter>
   );
