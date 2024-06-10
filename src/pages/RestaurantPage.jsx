@@ -34,6 +34,7 @@ const RestaurantPage = () => {
             </Paper>
         </Box>
     );
-};
+}
+
 
 export default RestaurantPage;
