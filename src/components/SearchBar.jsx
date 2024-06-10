@@ -24,7 +24,7 @@ const SearchBar = () => {
             } else {
                 setFilteredRestaurants([]);
             }
-        }, 300); // Définissez le délai de debounce ici
+        }, 300); s
     }, []);
 
     const handleRestaurantSelect = useCallback((restaurant) => {
