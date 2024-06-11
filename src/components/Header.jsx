@@ -18,8 +18,12 @@ export default function Header() {
     navigate(checked ? lastPage : '/form');
   };
 
+  const handleClick = () => {
+    navigate('/');
+  };
+
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar style={{ justifyContent: 'center', position: 'relative' }}>
         <Box position="absolute" left={0}>
           <Switch color="default" onClick={handleToggle} />
@@ -27,10 +31,11 @@ export default function Header() {
             {checked ? 'Admin' : 'User'}
           </Typography>
         </Box>
-        <Typography variant="h6" noWrap>
+        <Typography variant="h6" noWrap style={{ cursor: 'pointer' }} onClick={handleClick}>
           FastFood - Toulouse FFT
         </Typography>
         <SearchBar />
+       
       </Toolbar>
     </AppBar>
   );

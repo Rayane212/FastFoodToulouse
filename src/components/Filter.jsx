@@ -1,107 +1,75 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { Box, FormControl, InputLabel, Select, MenuItem, Button } from '@mui/material';
 
 const Filter = ({ onFilterChange }) => {
-    const [selectedLocation, setSelectedLocation] = useState('');
     const [selectedSpecialty, setSelectedSpecialty] = useState('');
     const [selectedOrigin, setSelectedOrigin] = useState('');
 
-    const handleLocationChange = (location) => {
-        setSelectedLocation(location);
-        onFilterChange({ location, specialty: selectedSpecialty, origin: selectedOrigin });
-    };
-
-    const handleSpecialtyChange = (specialty) => {
+    const handleSpecialtyChange = (event) => {
+        const specialty = event.target.value;
         setSelectedSpecialty(specialty);
-        onFilterChange({ location: selectedLocation, specialty, origin: selectedOrigin });
+        onFilterChange({ specialty, origin: selectedOrigin });
     };
 
-    const handleOriginChange = (origin) => {
+    const handleOriginChange = (event) => {
+        const origin = event.target.value;
         setSelectedOrigin(origin);
-        onFilterChange({ location: selectedLocation, specialty: selectedSpecialty, origin });
+        onFilterChange({ specialty: selectedSpecialty, origin });
     };
 
     const handleReset = () => {
-        setSelectedLocation('');
         setSelectedSpecialty('');
         setSelectedOrigin('');
-        onFilterChange({ location: '', specialty: '', origin: '' });
+        onFilterChange({ specialty: '', origin: '' });
     };
 
+    const specialties = [
+         "Pizzas", "Pâtes", "Kebabs", "Salades", "Burgers", "Sushi", "Tapas", "Sandwiches", "Couscous", "Tajines", "Pâtisseries", "Baguettes", "Wok", "Nouilles", "Makis", "Frites"
+    ];
+
+    const origins = [
+         "Italienne", "Libanaise", "Française", "Japonaise", "Espagnole", "Turque", "Marocaine", "Chinoise", "Américaine"
+    ];
+
     return (
-        <div>
-            <div>
-                <input
-                    type="checkbox"
-                    id="centre-ville"
-                    checked={selectedLocation === 'centre-ville'}
-                    onChange={() => handleLocationChange('centre-ville')}
-                />
-                <label htmlFor="centre-ville">Centre Ville</label>
+        <Box display="flex" flexDirection="row" alignItems="center" gap={2}>
+            <FormControl fullWidth>
+                <InputLabel id="specialty-label">Spécialité</InputLabel>
+                <Select
+                    labelId="specialty-label"
+                    value={selectedSpecialty}
+                    label="Spécialité"
+                    onChange={handleSpecialtyChange}
+                >
+                    {specialties.map((specialty, index) => (
+                        <MenuItem key={index} value={specialty}>
+                            {specialty}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
 
-                <input
-                    type="checkbox"
-                    id="peripherie"
-                    checked={selectedLocation === 'peripherie'}
-                    onChange={() => handleLocationChange('peripherie')}
-                />
-                <label htmlFor="peripherie">Périphérie</label>
-            </div>
+            <FormControl fullWidth>
+                <InputLabel id="origin-label">Origine</InputLabel>
+                <Select
+                    labelId="origin-label"
+                    value={selectedOrigin}
+                    label="Origine"
+                    onChange={handleOriginChange}
+                >
+                    {origins.map((origin, index) => (
+                        <MenuItem key={index} value={origin}>
+                            {origin}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
 
-            <div>
-                <input
-                    type="checkbox"
-                    id="burgers"
-                    checked={selectedSpecialty === 'burgers'}
-                    onChange={() => handleSpecialtyChange('burgers')}
-                />
-                <label htmlFor="burgers">Burgers</label>
-
-                <input
-                    type="checkbox"
-                    id="kebabs"
-                    checked={selectedSpecialty === 'kebabs'}
-                    onChange={() => handleSpecialtyChange('kebabs')}
-                />
-                <label htmlFor="kebabs">Kebabs</label>
-
-                <input
-                    type="checkbox"
-                    id="pizzas"
-                    checked={selectedSpecialty === 'pizzas'}
-                    onChange={() => handleSpecialtyChange('pizzas')}
-                />
-                <label htmlFor="pizzas">Pizzas</label>
-            </div>
-
-            <div>
-                <input
-                    type="checkbox"
-                    id="italien"
-                    checked={selectedOrigin === 'italien'}
-                    onChange={() => handleOriginChange('italien')}
-                />
-                <label htmlFor="italien">Italien</label>
-
-                <input
-                    type="checkbox"
-                    id="libanais"
-                    checked={selectedOrigin === 'libanais'}
-                    onChange={() => handleOriginChange('libanais')}
-                />
-                <label htmlFor="libanais">Libanais</label>
-
-                <input
-                    type="checkbox"
-                    id="marocain"
-                    checked={selectedOrigin === 'marocain'}
-                    onChange={() => handleOriginChange('marocain')}
-                />
-                <label htmlFor="marocain">Marocain</label>
-            </div>
-
-            <button onClick={handleReset}>Réinitialiser</button>
-        </div>
+            <Button variant="contained" color="primary" onClick={handleReset} fullWidth>
+                Réinitialiser
+            </Button>
+        </Box>
     );
 };
 

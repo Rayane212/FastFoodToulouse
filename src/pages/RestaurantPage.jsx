@@ -1,40 +1,50 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import restaurantData from '../data/restaurantData.json';
+import { useToggle } from '../context/ToggleContext';
 import Map from '../components/Map';
-import { Box, Typography, Paper, Card, CardMedia, CardContent } from '@mui/material';
+import { Box, Typography, Paper, Card, CardMedia, CardContent, Container } from '@mui/material';
 
 const RestaurantPage = () => {
+    const { restaurants } = useToggle();
     const { id } = useParams();
-    const restaurant = restaurantData.find(r => r.id.toString() === id);
+    const restaurant = restaurants.find(r => r.id.toString() === id);
 
     if (!restaurant) {
         return <Typography variant="h6" color="error">Restaurant introuvable</Typography>;
     }
 
     return (
-        <Box sx={{ p: 2 }}>
-            <Typography variant="h4" component="h2">{restaurant.name}</Typography>
-            <Card>
-                <CardMedia
-                    component="img"
-                    image={restaurant.image}
-                    alt={restaurant.name}
-                    sx={{ width: "100%", height: "auto" }}
-                />
-                <CardContent>
-                    <Typography variant="body1"><strong>Adresse:</strong> {restaurant.address}</Typography>
-                    <Typography variant="body1"><strong>Spécialités:</strong> {restaurant.specialties.join(', ')}</Typography>
-                    <Typography variant="body1"><strong>Origine:</strong> {restaurant.origins.join(', ')}</Typography>
-                    <Typography variant="body1"><strong>Description:</strong> {restaurant.description}</Typography>
-                </CardContent>
-            </Card>
-            <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
-                <Map position={[restaurant.position.latitude, restaurant.position.longitude]} />
-            </Paper>
-        </Box>
+        <Container style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', overflowY: 'hidden' }}>
+            <Box sx={{ p: 2 }}>
+                <Typography variant="h4" component="h2" sx={{ textAlign: 'center', mb: 2 }}>
+                    {restaurant.name}
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, flexGrow: 1 }}>
+                    <Card sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+                        <CardMedia
+                            component="img"
+                            sx={{ height: { xs: 'auto', md: 300 }, width: '100%', objectFit: 'cover' }}
+                            image={restaurant.image}
+                            alt={restaurant.name}
+                        />
+                    </Card>
+                    <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                        <Typography variant="body1"><strong>Adresse:</strong> {restaurant.address}</Typography>
+                        <Typography variant="body1"><strong>Spécialités:</strong> {restaurant.specialties.join(', ')}</Typography>
+                        <Typography variant="body1"><strong>Origine:</strong> {restaurant.origins.join(', ')}</Typography>
+                        <Typography variant="body1"><strong>Description:</strong> {restaurant.description}</Typography>
+                    </CardContent>
+                </Box>
+                <Box sx={{ flexShrink: 0, mt: 2 }}>
+                    <Paper elevation={3} sx={{ height: '400px' }}>
+                        <Map position={[restaurant.position.latitude, restaurant.position.longitude]} />
+                    </Paper>
+                </Box>
+            </Box>
+        </Container>
+
+
     );
 }
-
 
 export default RestaurantPage;

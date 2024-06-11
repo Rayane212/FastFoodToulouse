@@ -1,40 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { useToggle } from '../context/ToggleContext';
 import Filter from '../components/Filter';
+import { Grid, Container, Box, Pagination } from '@mui/material';
 import RestaurantList from '../components/RestaurantList';
 
-const HomePage = () => {
-    const initialRestaurants = [
-        { id: 1, name: 'Restaurant 1', location: 'centre-ville', specialty: 'burgers', origin: 'italien' },
-        { id: 2, name: 'Restaurant 2', location: 'peripherie', specialty: 'kebabs', origin: 'libanais' },
-        { id: 3, name: 'Restaurant 3', location: 'centre-ville', specialty: 'pizzas', origin: 'italien' },
-  
-    ];
+const ITEMS_PER_PAGE = 8;
 
-    const [restaurants, setRestaurants] = useState(initialRestaurants);
+const HomePage = () => {
+    const { restaurants } = useToggle();
+    const [page, setPage] = useState(1);
+    const [filters, setFilters] = useState({ specialty: '', origin: '' });
+    const contentRef = useRef(null);
 
     const handleFilterChange = (filters) => {
-       
-        let filteredRestaurants = initialRestaurants;
-
-        if (filters.location) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.location === filters.location);
-        }
-        if (filters.specialty) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.specialty === filters.specialty);
-        }
-        if (filters.origin) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.origin === filters.origin);
-        }
-
-      
-        setRestaurants(filteredRestaurants);
+        setFilters(filters);
+        setPage(1);
     };
 
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
+
+    const paginatedRestaurants = restaurants.filter(restaurant =>
+        (!filters.specialty || restaurant.specialties.includes(filters.specialty)) &&
+        (!filters.origin || restaurant.origins.includes(filters.origin))
+    ).slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+
+ 
     return (
-        <div>
-            <Filter onFilterChange={handleFilterChange} />
-            <RestaurantList restaurants={restaurants} />
-        </div>
+        <Container style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
+            <Box mt={4} mb={4} display="flex" flexDirection="column" alignItems="center" flexGrow={1} ref={contentRef}>
+                <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12}>
+                        <Filter onFilterChange={handleFilterChange} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container spacing={2}>
+                            <RestaurantList restaurants={paginatedRestaurants} />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Box mt={2} display="flex" justifyContent="center">
+                    <Pagination
+                        count={Math.ceil(restaurants.length / ITEMS_PER_PAGE)}
+                        page={page}
+                        onChange={handleChangePage}
+                        color="primary"
+                    />
+                </Box>
+            </Box>
+        </Container>
     );
 };
 
