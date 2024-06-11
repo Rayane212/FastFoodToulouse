@@ -7,7 +7,7 @@
     "origins": ["Italienne"],
     "rating": 4,
     "position": {"latitude": 43.604652, "longitude": 1.444209},
-    "image": "./LeGourmetItalien.png",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Une escapade italienne authentique, offrant les meilleurs plats traditionnels dans une ambiance chaleureuse."
   },
   {
@@ -18,7 +18,7 @@
     "origins": ["Libanaise"],
     "rating": 3,
     "position": {"latitude": 43.607101, "longitude": 1.454301},
-    "image": "https://example.com/images/le-coin-libanais.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Découvrez les saveurs riches et variées du Liban dans un cadre convivial."
   },
   {
@@ -29,7 +29,7 @@
     "origins": ["Française"],
     "rating": 4,
     "position": {"latitude": 43.600022, "longitude": 1.442011},
-    "image": "https://example.com/images/la-maison-du-burger.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Le paradis des amateurs de burgers, avec une touche française unique."
   },
   {
@@ -40,7 +40,7 @@
     "origins": ["Italienne"],
     "rating": 5,
     "position": {"latitude": 43.604326, "longitude": 1.440935},
-    "image": "https://example.com/images/pizza-delizia.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Des pizzas cuites au feu de bois, élaborées avec passion et savoir-faire italien."
   },
   {
@@ -51,7 +51,7 @@
     "origins": ["Japonaise"],
     "rating": 4,
     "position": {"latitude": 43.608175, "longitude": 1.451022},
-    "image": "https://example.com/images/sushi-express.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Un voyage culinaire au Japon avec des sushis frais et créatifs."
   },
   {
@@ -62,7 +62,7 @@
     "origins": ["Espagnole"],
     "rating": 4,
     "position": {"latitude": 43.604490, "longitude": 1.438722},
-    "image": "https://example.com/images/la-casa-de-tapas.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Une ambiance festive où partager des tapas espagnoles authentiques et savoureuses."
   },
   {
@@ -73,7 +73,7 @@
     "origins": ["Turque"],
     "rating": 3,
     "position": {"latitude": 43.606344, "longitude": 1.448101},
-    "image": "https://example.com/images/le-kebab-toulousain.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Les meilleurs kebabs de la ville, préparés avec des ingrédients frais et de qualité."
   },
   {
@@ -84,7 +84,7 @@
     "origins": ["Marocaine"],
     "rating": 4,
     "position": {"latitude": 43.602701, "longitude": 1.443809},
-    "image": "https://example.com/images/chez-hassan.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Un coin de Maroc à Toulouse, offrant les délices du couscous et des tajines."
   },
   {
@@ -95,7 +95,7 @@
     "origins": ["Française"],
     "rating": 5,
     "position": {"latitude": 43.608550, "longitude": 1.440722},
-    "image": "https://example.com/images/boulangerie-du-marche.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Une boulangerie traditionnelle où chaque produit raconte une histoire de goût et d'artisanat."
   },
   {
@@ -106,7 +106,7 @@
     "origins": ["Chinoise"],
     "rating": 4,
     "position": {"latitude": 43.605001, "longitude": 1.445209},
-    "image": "https://example.com/images/le-wok-asiatique.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Vivez une expérience culinaire asiatique unique avec des plats préparés au wok."
   },
   {
@@ -117,7 +117,7 @@
     "origins": ["Italienne"],
     "rating": 4,
     "position": {"latitude": 43.600702, "longitude": 1.441609},
-    "image": "https://example.com/images/pizzeria-bella-italia.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Un petit bout d'Italie à Toulouse, avec des pizzas gourmandes et des salades fraîches."
   },
   {
@@ -128,7 +128,7 @@
     "origins": ["Italienne", "Libanaise"],
     "rating": 4,
     "position": {"latitude": 43.603892, "longitude": 1.447102},
-    "image": "https://example.com/images/la-table-orientale.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Une fusion surprenante des cuisines italienne et libanaise, pour un voyage culinaire inoubliable."
   },
   {
@@ -139,7 +139,7 @@
     "origins": ["Marocaine"],
     "rating": 3,
     "position": {"latitude": 43.607002, "longitude": 1.448803},
-    "image": "https://example.com/images/le-petit-maroc.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Plongez dans l'atmosphère d'un authentique riad marocain et savourez ses tajines."
   },
   {
@@ -161,7 +161,7 @@
     "origins": ["Japonaise"],
     "rating": 4,
     "position": {"latitude": 43.599202, "longitude": 1.444009},
-    "image": "https://example.com/images/sushido.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "Une adresse incontournable pour les amateurs de sushi, où la fraîcheur des produits est toujours au rendez-vous."
   }
 ]

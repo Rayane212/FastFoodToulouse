@@ -18,8 +18,8 @@ const RestaurantList = ({ restaurants }) => {
                         <CardMedia
                             component="img"
                             height="140"
-                            image={`https://loremflickr.com/320/240/food?random=${index}`}
-                            alt="Image de nourriture"
+                            image={restaurant.image + `?random=${restaurant.id}`}
+                            alt={restaurant.name}
                         />
                         <CardContent style={{ flexGrow: 1 }}>
                             <Typography variant="h5" component="div">
