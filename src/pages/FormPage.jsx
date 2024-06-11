@@ -1,21 +1,17 @@
 import React, { useState } from 'react';
-import { Container, TextField, Button, Typography, Grid } from '@mui/material';
-import restaurantData from '../data/restaurantData.json';
-
-
+import { Container, TextField, Button, Typography, Grid, Rating, Box } from '@mui/material';
+import { useToggle } from '../context/ToggleContext';
 
 const FormPage = () => {
-    
-    const [restaurants, setRestaurants] = useState(restaurantData);
+    const { restaurants, addRestaurant } = useToggle();
     const [restaurant, setRestaurant] = useState({
-        id: restaurantData.length + 1,
+        id: restaurants.length + 1,
         name: '',
         address: '',
         specialties: '',
         origins: '',
         rating: '',
-        latitude: '',
-        longitude: '',
+        position: { latitude: '', longitude: '' },
         image: '',
         description: '',
     });
@@ -27,7 +23,8 @@ const FormPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setRestaurants([...restaurants, { ...restaurant, id: restaurants.length + 1 }]);
+        const newRestaurant = { ...restaurant, id: restaurants.length + 1, specialties: restaurant.specialties.split(','), origins: restaurant.origins.split(',') };
+        addRestaurant(newRestaurant);
         setRestaurant({
             id: restaurants.length + 1,
             name: '',
@@ -35,8 +32,7 @@ const FormPage = () => {
             specialties: '',
             origins: '',
             rating: '',
-            latitude: '',
-            longitude: '',
+            position: { latitude: '', longitude: '' },
             image: '',
             description: '',
         });
@@ -88,15 +84,19 @@ const FormPage = () => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            fullWidth
-                            label="Note"
-                            name="rating"
-                            type="number"
-                            value={restaurant.rating}
-                            onChange={handleChange}
-                            required
-                        />
+                        <Box display="flex" justifyContent="center">
+                            <Rating
+                                fullWidth
+                                label="Note"
+                                name="rating"
+                                type="number"
+                                value={restaurant.rating}
+                                onChange={handleChange}
+                                required
+
+                            />
+                        </Box>
+
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
@@ -104,7 +104,7 @@ const FormPage = () => {
                             label="Latitude"
                             name="latitude"
                             type="number"
-                            value={restaurant.latitude}
+                            value={restaurant.position.latitude}
                             onChange={handleChange}
                             required
                         />
@@ -115,7 +115,7 @@ const FormPage = () => {
                             label="Longitude"
                             name="longitude"
                             type="number"
-                            value={restaurant.longitude}
+                            value={restaurant.position.longitude}
                             onChange={handleChange}
                             required
                         />
