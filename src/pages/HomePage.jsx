@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useToggle } from '../context/ToggleContext';
 import Filter from '../components/Filter';
 import { Grid, Container, Box, Pagination } from '@mui/material';
@@ -9,7 +9,6 @@ const ITEMS_PER_PAGE = 8;
 const HomePage = () => {
     const { restaurants } = useToggle();
     const [page, setPage] = useState(1);
-    const [isScrollable, setIsScrollable] = useState(false);
     const [filters, setFilters] = useState({ specialty: '', origin: '' });
     const contentRef = useRef(null);
 
@@ -27,16 +26,9 @@ const HomePage = () => {
         (!filters.origin || restaurant.origins.includes(filters.origin))
     ).slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
 
-    useEffect(() => {
-        if (contentRef.current) {
-            const contentHeight = contentRef.current.clientHeight;
-            const windowHeight = window.innerHeight;
-            setIsScrollable(contentHeight > windowHeight);
-        }
-    }, [paginatedRestaurants]);
-
+ 
     return (
-        <Container style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', overflowY: isScrollable ? 'auto' : 'hidden' }}>
+        <Container style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
             <Box mt={4} mb={4} display="flex" flexDirection="column" alignItems="center" flexGrow={1} ref={contentRef}>
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item xs={12}>

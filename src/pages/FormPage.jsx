@@ -10,8 +10,8 @@ const FormPage = () => {
         address: '',
         specialties: '',
         origins: '',
-        rating: '',
-        position: { latitude: '', longitude: '' },
+        rating: 0,
+        position: { latitude: 0, longitude: 0 },
         image: '',
         description: '',
     });
@@ -31,8 +31,8 @@ const FormPage = () => {
             address: '',
             specialties: '',
             origins: '',
-            rating: '',
-            position: { latitude: '', longitude: '' },
+            rating: 0,
+            position: { latitude: 0, longitude: 0 },
             image: '',
             description: '',
         });
@@ -86,11 +86,10 @@ const FormPage = () => {
                     <Grid item xs={12}>
                         <Box display="flex" justifyContent="center">
                             <Rating
-                                fullWidth
+            
                                 label="Note"
                                 name="rating"
-                                type="number"
-                                value={restaurant.rating}
+                                number={restaurant.rating}
                                 onChange={handleChange}
                                 required
 
