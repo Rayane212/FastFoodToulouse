@@ -19,7 +19,7 @@ export default function Header() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar style={{ justifyContent: 'center', position: 'relative' }}>
         <Box position="absolute" left={0}>
           <Switch color="default" onClick={handleToggle} />

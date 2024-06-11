@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import { Container, TextField, Button, Typography, Grid } from '@mui/material';
 import restaurantData from '../data/restaurantData.json';
-import { useToggle } from '../context/ToggleContext';
 
 
 
 const FormPage = () => {
-    const { checked } = useToggle();
     
-    if (!checked) {
-        return <div>Accès refusé</div>;
-    }
-
     const [restaurants, setRestaurants] = useState(restaurantData);
     const [restaurant, setRestaurant] = useState({
         id: restaurantData.length + 1,

@@ -1,40 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Filter from '../components/Filter';
+import restaurantData from '../data/restaurantData.json';
+import { Grid, Container, Box, Pagination } from '@mui/material';
 import RestaurantList from '../components/RestaurantList';
 
-const HomePage = () => {
-    const initialRestaurants = [
-        { id: 1, name: 'Restaurant 1', location: 'centre-ville', specialty: 'burgers', origin: 'italien' },
-        { id: 2, name: 'Restaurant 2', location: 'peripherie', specialty: 'kebabs', origin: 'libanais' },
-        { id: 3, name: 'Restaurant 3', location: 'centre-ville', specialty: 'pizzas', origin: 'italien' },
-  
-    ];
+const ITEMS_PER_PAGE = 8;
 
-    const [restaurants, setRestaurants] = useState(initialRestaurants);
+const HomePage = () => {
+    const [restaurants, setRestaurants] = useState(restaurantData);
+    const [page, setPage] = useState(1);
+    const [isScrollable, setIsScrollable] = useState(false);
+    const contentRef = useRef(null);
 
     const handleFilterChange = (filters) => {
-       
-        let filteredRestaurants = initialRestaurants;
+        let filteredRestaurants = restaurantData;
 
-        if (filters.location) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.location === filters.location);
-        }
         if (filters.specialty) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.specialty === filters.specialty);
+            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.specialties.includes(filters.specialty));
         }
         if (filters.origin) {
-            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.origin === filters.origin);
+            filteredRestaurants = filteredRestaurants.filter(restaurant => restaurant.origins.includes(filters.origin));
         }
 
-      
         setRestaurants(filteredRestaurants);
+        setPage(1);
     };
 
+    const handleChangePage = (event, value) => {
+        setPage(value);
+    };
+
+    const paginatedRestaurants = restaurants.slice((page - 1) * ITEMS_PER_PAGE, page * ITEMS_PER_PAGE);
+
+    useEffect(() => {
+        if (contentRef.current) {
+            const contentHeight = contentRef.current.clientHeight;
+            const windowHeight = window.innerHeight;
+            setIsScrollable(contentHeight > windowHeight);
+        }
+    }, [paginatedRestaurants]);
+
     return (
-        <div>
-            <Filter onFilterChange={handleFilterChange} />
-            <RestaurantList restaurants={restaurants} />
-        </div>
+        <Container style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', overflowY: isScrollable ? 'auto' : 'hidden' }}>
+            <Box mt={4} mb={4} display="flex" flexDirection="column" alignItems="center" flexGrow={1} ref={contentRef}>
+                <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12}>
+                        <Filter onFilterChange={handleFilterChange} />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container spacing={2}>
+                           <RestaurantList restaurants={paginatedRestaurants} />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Box mt={2} display="flex" justifyContent="center">
+                    <Pagination 
+                        count={Math.ceil(restaurants.length / ITEMS_PER_PAGE)} 
+                        page={page} 
+                        onChange={handleChangePage} 
+                        color="primary" 
+                    />
+                </Box>
+            </Box>
+        </Container>
     );
 };
 
