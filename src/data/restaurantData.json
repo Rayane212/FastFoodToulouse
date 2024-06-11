@@ -150,7 +150,7 @@
     "origins": ["Américaine"],
     "rating": 5,
     "position": {"latitude": 43.604900, "longitude": 1.445600},
-    "image": "https://example.com/images/burger-palace.jpg",
+    "image": "https://loremflickr.com/320/240/food",
     "description": "L'expérience ultime du burger américain, avec des frites croustillantes et des ingrédients de première qualité."
   },
   {
