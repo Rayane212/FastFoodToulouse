@@ -14,22 +14,22 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
-    const handleRouteChange = () => {
+    if (location.pathname === '/') {
       setIsLoading(true);
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         setIsLoading(false);
       }, 2000);
-    };
 
-    handleRouteChange();
-
-    return () => clearTimeout();
-  }, [location]);
+      return () => clearTimeout(timeoutId);
+    } else {
+      setIsLoading(false);
+    }
+  }, [location.pathname]);
 
   return (
     <>
-      {isLoading && <Loading />}
-      <div style={{ display: isLoading ? 'none' : 'block' }}>
+      {isLoading && location.pathname === '/' && <Loading />}
+      <div style={{ display: isLoading && location.pathname === '/' ? 'none' : 'block' }}>
         <ToggleProvider>
           <Header />
           <Routes>
