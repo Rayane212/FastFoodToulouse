@@ -1,62 +1,80 @@
 import React, { useState } from 'react';
-import { Input } from 'antd';
 import restaurantData from '../data/restaurantData.json';
+import { InputBase, Paper, ClickAwayListener, List, ListItem, ListItemText } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
 
-const { Search } = Input;
 
 const SearchBar = () => {
-    const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-    const [searchValue, setSearchValue] = useState('');
-    const [selectedRestaurant, setSelectedRestaurant] = useState(null);
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+    const navigate = useNavigate();
 
-    const handleSearch = (value) => {
-        setSearchValue(value);
-        if (value.length >= 2) {
-            const filtered = restaurantData.filter((restaurant) =>
-                restaurant.name.toLowerCase().includes(value.toLowerCase())
-            );
-            setFilteredRestaurants(filtered);
-        } else {
-            setFilteredRestaurants([]);
-        }
+    const handleClose = () => {
+        setQuery('');
+        setResults([]);
     };
 
-    const handleRestaurantSelect = (restaurant) => {
-        setSelectedRestaurant(restaurant);
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setQuery(value);
+        if (value) {
+            const filteredResults = restaurantData.filter((restaurant) =>
+                restaurant.name.toLowerCase().includes(value.toLowerCase())
+            );
+            setResults(filteredResults);
+        } else {
+            setResults([]);
+        }
+    };
+    const handleClick = (id) => {
+        navigate(`/address/${id}`);
+        handleClose();
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <Search
-                placeholder="Search restaurants..."
-                style={{ width: 400, marginBottom: 20 }}
-                value={searchValue}
-                onChange={(e) => handleSearch(e.target.value)}
-            />
-            <div style={{ width: 400 }}>
-                {/* Render the filtered restaurant list */}
-                {filteredRestaurants.map((restaurant) => (
-                    <div 
-                        key={restaurant.id} 
-                        style={{ 
-                            marginBottom: 10, 
-                            cursor: 'pointer',
-                            backgroundColor: selectedRestaurant === restaurant ? '#f0f0f0' : 'transparent'
+        <ClickAwayListener onClickAway={handleClose}>
+            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', width: '100%' }}>
+                <Paper
+                    elevation={1}
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '10px',
+                        width: '100%'
+                    }}
+                >
+                    <SearchIcon style={{ marginRight: '10px' }} />
+                    <InputBase
+                        placeholder="Rechercher..."
+                        value={query}
+                        onChange={handleSearch}
+                        style={{ width: '100%' }}
+                    />
+                </Paper>
+                {results.length > 0 && (
+                    <Paper
+                        elevation={1}
+                        style={{
+                            position: 'absolute',
+                            top: '100%',
+                            left: 0,
+                            right: 0,
+                            zIndex: 1,
+                            marginTop: '5px',
                         }}
-                        onClick={() => handleRestaurantSelect(restaurant)}
                     >
-                        {restaurant.name}
-                    </div>
-                ))}
+                        <List>
+                            {results.map((result) => (
+                                <ListItem key={result.id} button onClick={() => handleClick(result.id)}>
+                                    <ListItemText primary={result.name} />
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Paper>
+                )}
             </div>
-            {selectedRestaurant && (
-                <div style={{ marginTop: 20 }}>
-                    <h2>{selectedRestaurant.name}</h2>
-                    <p>{selectedRestaurant.description}</p>
-                    {/* Ajoutez d'autres détails du restaurant si nécessaire */}
-                </div>
-            )}
-        </div>
+        </ClickAwayListener>
     );
 };
 

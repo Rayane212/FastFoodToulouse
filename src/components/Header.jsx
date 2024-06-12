@@ -34,8 +34,9 @@ export default function Header() {
         <Typography variant="h6" noWrap style={{ cursor: 'pointer' }} onClick={handleClick}>
           FastFood - Toulouse FFT
         </Typography>
-        <SearchBar />
-       
+        <Box position="absolute" right={50}>
+          <SearchBar />
+        </Box>
       </Toolbar>
     </AppBar>
   );
