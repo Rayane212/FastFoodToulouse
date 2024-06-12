@@ -14,7 +14,7 @@ const RestaurantList = ({ restaurants }) => {
         <>
             {restaurants.map((restaurant, index) => (
                 <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                    <Card onClick={() => handleClick(restaurant.id)} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <Card onClick={() => handleClick(restaurant.id)} style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', height: '100%', maxHeight:'300px' }}>
                         <CardMedia
                             component="img"
                             height="140"

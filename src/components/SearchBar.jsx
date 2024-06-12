@@ -62,6 +62,8 @@ const SearchBar = () => {
                             right: 0,
                             zIndex: 1,
                             marginTop: '5px',
+                            maxHeight: '200px', 
+                            overflowY: 'auto' 
                         }}
                     >
                         <List>
