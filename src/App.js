@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import FormPage from './pages/FormPage';
 import RestaurantPage from './pages/RestaurantPage';
@@ -9,45 +9,46 @@ import Footer from './components/Footer';
 import { ToggleProvider } from './context/ToggleContext';
 import Loading from './components/Loading';
 
-function App() {
+const App = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const location = useLocation();
 
-  const handleLoading = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000); // Temps d'attente pour l'affichage du composant Loading (2 secondes)
-  };
+  useEffect(() => {
+    const handleRouteChange = () => {
+      setIsLoading(true);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 2000);
+    };
+
+    handleRouteChange();
+
+    return () => clearTimeout();
+  }, [location]);
 
   return (
-    <ToggleProvider>
-      <BrowserRouter>
-        {isLoading && <Loading />} {/* Affiche le composant Loading si isLoading est true */}
-        <div>
+    <>
+      {isLoading && <Loading />}
+      <div style={{ display: isLoading ? 'none' : 'block' }}>
+        <ToggleProvider>
           <Header />
           <Routes>
-            <Route
-              path="/"
-              element={<HomePage />}
-              onChange={handleLoading} // Appelle la fonction handleLoading avant chaque changement de page
-            />
-            <Route
-              path="/form"
-              element={<FormPage />}
-              onChange={handleLoading} // Appelle la fonction handleLoading avant chaque changement de page
-            />
-            <Route
-              path="/address/:id"
-              element={<RestaurantPage />}
-              onChange={handleLoading} // Appelle la fonction handleLoading avant chaque changement de page
-            />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/form" element={<FormPage />} />
+            <Route path="/address/:id" element={<RestaurantPage />} />
             <Route path="*" element={<Error404 />} />
           </Routes>
           <Footer />
-        </div>
-      </BrowserRouter>
-    </ToggleProvider>
+        </ToggleProvider>
+      </div>
+    </>
   );
-}
+};
 
-export default App;
+const AppWrapper = () => (
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+
+export default AppWrapper;
