@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useToggle } from '../context/ToggleContext';
 import Map from '../components/Map';
-import { Box, Typography, Paper, Card, CardMedia, CardContent, Container } from '@mui/material';
+import { Box, Typography, Paper, Card, CardMedia, CardContent, Container, Rating } from '@mui/material';
 
 const RestaurantPage = () => {
     const { restaurants } = useToggle();
@@ -29,10 +29,18 @@ const RestaurantPage = () => {
                         />
                     </Card>
                     <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                        <Typography variant="body1"><strong>Adresse:</strong> {restaurant.address}</Typography>
-                        <Typography variant="body1"><strong>Spécialités:</strong> {restaurant.specialties.join(', ')}</Typography>
-                        <Typography variant="body1"><strong>Origine:</strong> {restaurant.origins.join(', ')}</Typography>
-                        <Typography variant="body1"><strong>Description:</strong> {restaurant.description}</Typography>
+                        <Typography variant="h6" component="h3" sx={{ mb: 2 }}>Informations</Typography>
+                        <Rating
+                            label="Note"
+                            name="rating"
+                            value={restaurant.rating}
+                            readOnly
+                            sx={{ mb: 1 }}
+                        />
+                        <Typography variant="body1"  sx={{ mb: 1 }}><strong>Adresse:</strong> {restaurant.address}</Typography>
+                        <Typography variant="body1"  sx={{ mb: 1 }}><strong>Spécialités:</strong> {restaurant.specialties.join(', ')}</Typography>
+                        <Typography variant="body1"  sx={{ mb: 1 }}><strong>Origine:</strong> {restaurant.origins.join(', ')}</Typography>
+                        <Typography variant="body1"  sx={{ mb: 1 }}><strong>Description:</strong> {restaurant.description}</Typography>
                     </CardContent>
                 </Box>
                 <Box sx={{ flexShrink: 0, mt: 2 }}>
