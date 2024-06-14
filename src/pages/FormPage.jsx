@@ -11,14 +11,24 @@ const FormPage = () => {
         specialties: '',
         origins: '',
         rating: 0,
-        position: { latitude: 0, longitude: 0 },
+        position: { latitude: 43.6044622, longitude: 1.4442469 },
         image: '',
         description: '',
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setRestaurant({ ...restaurant, [name]: value });
+        if (name === 'latitude' || name === 'longitude') {
+            setRestaurant({
+                ...restaurant,
+                position: {
+                    ...restaurant.position,
+                    [name]: parseFloat(value),
+                },
+            });
+        } else {
+            setRestaurant({ ...restaurant, [name]: value });
+        }
     };
 
     const handleSubmit = (e) => {
@@ -86,7 +96,7 @@ const FormPage = () => {
                     <Grid item xs={12}>
                         <Box display="flex" justifyContent="center">
                             <Rating
-            
+
                                 label="Note"
                                 name="rating"
                                 number={restaurant.rating}
