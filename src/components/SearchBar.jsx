@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import restaurantData from '../data/restaurantData.json';
 import { InputBase, Paper, ClickAwayListener, List, ListItem, ListItemText } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useNavigate } from 'react-router-dom';
+import { useToggle } from '../context/ToggleContext';
+
 
 
 const SearchBar = () => {
+    const { restaurants } = useToggle();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const navigate = useNavigate();
@@ -19,7 +21,7 @@ const SearchBar = () => {
         const value = e.target.value;
         setQuery(value);
         if (value) {
-            const filteredResults = restaurantData.filter((restaurant) =>
+            const filteredResults = restaurants.filter((restaurant) =>
                 restaurant.name.toLowerCase().includes(value.toLowerCase())
             );
             setResults(filteredResults);
